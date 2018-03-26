@@ -15,6 +15,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Admin Authentication Routes...
+Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm');
+Route::post('admin/login', 'Admin\Auth\LoginController@login');
+Route::post('admin/logout', 'Admin\Auth\LoginController@logout');
+
+// Admin Registration Routes...
+Route::get('admin/register', 'Admin\Auth\RegisterController@showRegistrationForm');
+Route::post('admin/register', 'Admin\Auth\RegisterController@register');
+
+// Admin Password Reset Routes...
+Route::get('admin/password/reset', 'Admin\Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('admin/password/email', 'Admin\Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('admin/password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm');
+Route::post('admin/password/reset', 'Admin\Auth\ResetPasswordController@reset');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

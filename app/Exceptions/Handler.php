@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -49,5 +50,54 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         return parent::render($request, $exception);
+    }
+
+    /**
+     * Prepisujem unauthenticated metod, kako bih naveo razlicite 
+     * putanje za redirekciju zavisno da li je member ili admin
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response
+     */
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        // return $request->expectsJson()
+        //             ? response()->json(['message' => $exception->getMessage()], 401)
+        //             : redirect()->guest(route('login'));
+
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => $exception->getMessage()], 401);
+        }
+
+        // return redirect()->guest('login');
+
+        // Customize the redirect based on the guard
+        // Note that we don't know which guard failed here, but I can't find an elegant way
+        // to handle this and I know in this project I am only using one guard at a time anyway.
+        $middleware = request()->route()->gatherMiddleware();
+
+        // return dd($middleware);
+
+        $guard = config('auth.defaults.guard');
+
+        foreach($middleware as $m) {
+            if(preg_match("/auth:/",$m)) {
+                list($mid, $guard) = explode(":",$m);
+            }
+        }
+
+        switch($guard) {
+            case 'admin':
+                $login = 'admin/login';
+                break;
+            default:
+                $login = 'login';
+                break;
+        }
+
+        return redirect()->guest($login);
+        // return redirect($login);
     }
 }

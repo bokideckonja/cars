@@ -35,6 +35,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapAdminRoutes();
+        
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
@@ -69,5 +71,20 @@ class RouteServiceProvider extends ServiceProvider
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
+    }
+
+    /**
+     * Definisemo "admin" rute za app.
+     *
+     * Ive rute su sadrzane u posebnom fajlu, kako bi odvojili Admin panel od ostatka.
+     *
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        Route::prefix('admin')
+             ->middleware(['web','auth:admin'])
+             ->namespace($this->namespace."\Admin")
+             ->group(base_path('routes/admin.php'));
     }
 }
