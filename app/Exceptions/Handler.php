@@ -76,21 +76,39 @@ class Handler extends ExceptionHandler
         // Customize the redirect based on the guard
         // Note that we don't know which guard failed here, but I can't find an elegant way
         // to handle this and I know in this project I am only using one guard at a time anyway.
-        $middleware = request()->route()->gatherMiddleware();
+        // $middleware = request()->route()->gatherMiddleware();
 
-        // return dd($middleware);
+        // // return dd($middleware);
 
-        $guard = config('auth.defaults.guard');
+        // $guard = config('auth.defaults.guard');
 
-        foreach($middleware as $m) {
-            if(preg_match("/auth:/",$m)) {
-                list($mid, $guard) = explode(":",$m);
-            }
-        }
+        // foreach($middleware as $m) {
+        //     if(preg_match("/auth:/",$m)) {
+        //         list($mid, $guard) = explode(":",$m);
+        //     }
+        // }
 
-        switch($guard) {
+        // switch($guard) {
+        //     case 'admin':
+        //         $login = 'admin/login';
+        //         break;
+        //     default:
+        //         $login = 'login';
+        //         break;
+        // }
+
+
+
+
+        $guard = array_get($exception->guards(), 0);
+
+        dd($exception->guards());
+        switch ($guard) {
             case 'admin':
                 $login = 'admin/login';
+                break;
+            case 'users':
+                $login = 'login';
                 break;
             default:
                 $login = 'login';
@@ -98,6 +116,8 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest($login);
-        // return redirect($login);
+
+
+        // return redirect()->guest($login);
     }
 }
