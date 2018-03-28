@@ -62,47 +62,15 @@ class Handler extends ExceptionHandler
      */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
-        // return $request->expectsJson()
-        //             ? response()->json(['message' => $exception->getMessage()], 401)
-        //             : redirect()->guest(route('login'));
-
-
+        // Ako ocekuje json, samo vrati json response
         if ($request->expectsJson()) {
             return response()->json(['message' => $exception->getMessage()], 401);
         }
 
-        // return redirect()->guest('login');
-
-        // Customize the redirect based on the guard
-        // Note that we don't know which guard failed here, but I can't find an elegant way
-        // to handle this and I know in this project I am only using one guard at a time anyway.
-        // $middleware = request()->route()->gatherMiddleware();
-
-        // // return dd($middleware);
-
-        // $guard = config('auth.defaults.guard');
-
-        // foreach($middleware as $m) {
-        //     if(preg_match("/auth:/",$m)) {
-        //         list($mid, $guard) = explode(":",$m);
-        //     }
-        // }
-
-        // switch($guard) {
-        //     case 'admin':
-        //         $login = 'admin/login';
-        //         break;
-        //     default:
-        //         $login = 'login';
-        //         break;
-        // }
-
-
-
-
+        // Odredi rutu za redirekciju, na osnovu guard-a
+        // Ako ne postoji, postavi default 'login'
         $guard = array_get($exception->guards(), 0);
 
-        dd($exception->guards());
         switch ($guard) {
             case 'admin':
                 $login = 'admin/login';
@@ -116,8 +84,5 @@ class Handler extends ExceptionHandler
         }
 
         return redirect()->guest($login);
-
-
-        // return redirect()->guest($login);
     }
 }
