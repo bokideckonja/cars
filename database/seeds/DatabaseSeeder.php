@@ -18,7 +18,6 @@ class DatabaseSeeder extends Seeder
     	    $user->password = bcrypt('asdasd');
     	    $user->save();
     	});
-
     	// Kreiraj jednog admina
         factory(App\Admin::class, 1)->create()->each(function($admin){
             $admin->name = "John Doe";

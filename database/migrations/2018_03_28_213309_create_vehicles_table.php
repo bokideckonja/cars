@@ -22,9 +22,8 @@ class CreateVehiclesTable extends Migration
             $table->year('year');
             $table->integer('miles')->unsigned()->default(0);
             $table->string('image')->nullable();
-            $table->integer('user_id')->unsigned();
             $table->integer('category_id')->unsigned();
-            $table->enum('status', ['approved', 'pending'])->default('approved');
+            $table->enum('status', ['approved', 'pending'])->default('pending');
 
             $table->timestamps();
         });

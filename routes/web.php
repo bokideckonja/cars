@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'IndexController@index');
+Route::get('/vehicles/create', 'VehicleController@create')->middleware('auth');
+Route::post('/vehicles', 'VehicleController@store')->middleware('auth');
 
 // Admin Authentication Routes...
 Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm');
@@ -32,4 +32,4 @@ Route::post('admin/password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
