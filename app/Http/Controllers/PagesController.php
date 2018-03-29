@@ -13,7 +13,7 @@ class PagesController extends Controller
         if($request->expectsJson()){
             return response()->json($vehicles);
         }
-        return response()->json($vehicles);
+        // return response()->json($vehicles);
         return view('index', compact('vehicles'));
     }
 }
