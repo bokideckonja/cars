@@ -18,7 +18,16 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+            // Ukoliko je ulogovan, redirekt na odgovarajucu stranu
+            // switch ($guard) {
+            //     case 'admin':
+            //         $login = '/admin';
+            //         break;
+            //     default:
+            //         $login = '/';
+            //         break;
+            // }
+            return redirect('/');
         }
 
         return $next($request);

@@ -36,7 +36,9 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @auth
+                        <li class="{{ request()->is('vehicles/create')?'active':'' }}"><a href="{{ url('/vehicles/create') }}">Create vehicle</a></li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
