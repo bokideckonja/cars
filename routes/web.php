@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'PagesController@index');
-Route::get('/search', 'PagesController@search');
+// Route::get('/search', 'PagesController@search');
 
 Auth::routes();
 

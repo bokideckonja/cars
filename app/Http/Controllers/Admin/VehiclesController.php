@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Vehicle;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Scrapers\PolovniAutomobiliScraper;
 
 class VehiclesController extends Controller
 {
@@ -15,7 +16,7 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-    	$vehicles = Vehicle::with('category')->paginate(2);
+    	$vehicles = Vehicle::with('category')->paginate(10);
     	return view('admin.vehicles.index', compact('vehicles'));
     }
 
@@ -34,6 +35,19 @@ class VehiclesController extends Controller
     }
 
     /**
+     * Scrape-uj polovniautomobili.com za audi modele
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function scrapeAudi()
+    {
+        (new PolovniAutomobiliScraper)->scrape();
+
+        session()->flash('flash-message', 'Vehicles successfully fetched.');
+        return back();
+    }
+
+    /**
      * Obrisi vozilo.
      *
      * @return \Illuminate\Http\Response
@@ -45,4 +59,7 @@ class VehiclesController extends Controller
     	session()->flash('flash-message', 'Vehicle successfully deleted.');
     	return back();
     }
+
+    
+
 }
