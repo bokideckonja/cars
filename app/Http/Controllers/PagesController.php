@@ -5,11 +5,10 @@ namespace App\Http\Controllers;
 use App\Vehicle;
 use Illuminate\Http\Request;
 
-class IndexController extends Controller
+class PagesController extends Controller
 {
-
     public function index(){
-    	$vehicles = Vehicle::approved()->paginate(1);
+    	$vehicles = Vehicle::approved()->with('category')->paginate(2);
     	return view('index', compact('vehicles'));
     }
 }

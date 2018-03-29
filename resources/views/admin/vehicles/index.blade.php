@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
 <div class="container">
@@ -14,6 +14,7 @@
                             <th>Image</th>
                             <th>Info</th>
                             <th>Price</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +30,23 @@
                             </p>
                         </td>
                         <td><strong>{{$vehicle->price}} €</strong></td>
+                        <td>
+                            @if( $vehicle->status == 'pending')
+                            <a href="" onclick="event.preventDefault(); 
+                                document.getElementById('approve-vehicle-{{$vehicle->id}}').submit();">Approve</a>
+                            <form action="{{ url('/admin/vehicles/'.$vehicle->id.'/approve') }}" id="approve-vehicle-{{$vehicle->id}}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                                {{ method_field('PUT') }}
+                            </form>
+                            @endif
+
+                            <a href="" onclick="event.preventDefault(); 
+                                document.getElementById('delete-vehicle-{{$vehicle->id}}').submit();">Delete</a>
+                            <form action="{{ url('/admin/vehicles/'.$vehicle->id) }}" id="delete-vehicle-{{$vehicle->id}}" method="POST" style="display: none;">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </table>

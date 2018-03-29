@@ -60,29 +60,29 @@ class Handler extends ExceptionHandler
      * @param  \Illuminate\Auth\AuthenticationException  $exception
      * @return \Illuminate\Http\Response
      */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        // Ako ocekuje json, samo vrati json response
-        if ($request->expectsJson()) {
-            return response()->json(['message' => $exception->getMessage()], 401);
-        }
+    // protected function unauthenticated($request, AuthenticationException $exception)
+    // {
+    //     // Ako ocekuje json, samo vrati json response
+    //     if ($request->expectsJson()) {
+    //         return response()->json(['message' => $exception->getMessage()], 401);
+    //     }
 
-        // Odredi rutu za redirekciju, na osnovu guard-a
-        // Ako ne postoji, postavi default 'login'
-        $guard = array_get($exception->guards(), 0);
+    //     // Odredi rutu za redirekciju, na osnovu guard-a
+    //     // Ako ne postoji, postavi default 'login'
+    //     $guard = array_get($exception->guards(), 0);
 
-        switch ($guard) {
-            case 'admin':
-                $login = 'admin/login';
-                break;
-            case 'users':
-                $login = 'login';
-                break;
-            default:
-                $login = 'login';
-                break;
-        }
+    //     switch ($guard) {
+    //         case 'admin':
+    //             $login = 'admin/login';
+    //             break;
+    //         case 'users':
+    //             $login = 'login';
+    //             break;
+    //         default:
+    //             $login = 'login';
+    //             break;
+    //     }
 
-        return redirect()->guest($login);
-    }
+    //     return redirect()->guest($login);
+    // }
 }

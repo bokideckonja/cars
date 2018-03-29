@@ -4,12 +4,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
+            @include('partials.alert')
             <div class="panel panel-default">
                 <div class="panel-heading">Create Vehicle</div>
 
                 <div class="panel-body">
-                    @include('partials.alert')
-
                     <form class="form-horizontal" method="POST" action="{{ url('/vehicles') }}" enctype="multipart/form-data">
                         {{ csrf_field() }}
 

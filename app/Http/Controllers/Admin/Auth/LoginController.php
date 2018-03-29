@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth as Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Traits\LogsoutGuard;
 
 class LoginController extends Controller
 {
@@ -20,7 +20,9 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, LogsoutGuard {
+        LogsoutGuard::logout insteadof AuthenticatesUsers;
+    }
 
     /**
      * Where to redirect users after login.
@@ -36,7 +38,7 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('admin.guest')->except('logout');
     }
 
 
@@ -45,28 +47,19 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showLoginForm(Request $request)
+    public function showLoginForm()
     {
         return view('admin.auth.login');
     }
 
     /**
-     * Log the user out of the application.
+     * Preusmjeri nakon logouta na admin/login
      *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-
-        $request->session()->flush();
-
-        $request->session()->regenerate();
-
-        return redirect('/admin/login');
+    public function logoutToPath() {
+        return '/admin/login';
     }
-
 
     /**
      * Get the guard to be used during authentication.

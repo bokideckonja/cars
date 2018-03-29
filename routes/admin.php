@@ -11,5 +11,9 @@
 |
 */
 
-Route::get('/', 'DashboardController@index');
 Route::post('logout', 'Auth\LoginController@logout');
+
+Route::get('/', 'VehiclesController@index');
+Route::put('/vehicles/{vehicle}/approve', 'VehiclesController@approve');
+Route::delete('/vehicles/{vehicle}', 'VehiclesController@destroy');
+Route::resource('categories', 'CategoriesController')->except('show');

@@ -9,7 +9,7 @@ use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class VehicleController extends Controller
+class VehiclesController extends Controller
 {
 
     /**
@@ -31,7 +31,7 @@ class VehicleController extends Controller
     {
         $categories = Category::all();
 
-        return view('vehicle.create', compact('categories'));
+        return view('vehicles.create', compact('categories'));
     }
 
     /**
@@ -48,7 +48,7 @@ class VehicleController extends Controller
             "name"      => "required|max:255",
             "category"  => "required|exists:categories,id",
             "price"     => "required|integer",
-            "year"      => "required|integer",
+            "year"      => "required|integer|min:1901|max:2155",
             "miles"     => "required|integer",
             "image"     => "required|file|mimes:jpeg,bmp,png,gif|max:10000"
         ]);

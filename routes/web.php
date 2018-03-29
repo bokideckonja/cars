@@ -11,9 +11,13 @@
 |
 */
 
-Route::get('/', 'IndexController@index');
-Route::get('/vehicles/create', 'VehicleController@create')->middleware('auth');
-Route::post('/vehicles', 'VehicleController@store')->middleware('auth');
+Route::get('/', 'PagesController@index');
+Route::get('/search', 'PagesController@search');
+
+Auth::routes();
+
+Route::get('/vehicles/create', 'VehiclesController@create')->middleware('auth');
+Route::post('/vehicles', 'VehiclesController@store')->middleware('auth');
 
 // Admin Authentication Routes...
 Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm');
@@ -30,6 +34,6 @@ Route::post('admin/password/email', 'Admin\Auth\ForgotPasswordController@sendRes
 Route::get('admin/password/reset/{token}', 'Admin\Auth\ResetPasswordController@showResetForm');
 Route::post('admin/password/reset', 'Admin\Auth\ResetPasswordController@reset');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+
+// Route::get('/home', 'HomeController@index');
