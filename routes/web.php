@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', 'PagesController@index');
-// Route::get('/search', 'PagesController@search');
-
-Auth::routes();
-
+Route::get('/', 'VehiclesController@index');
 Route::get('/vehicles/create', 'VehiclesController@create')->middleware('auth');
 Route::post('/vehicles', 'VehiclesController@store')->middleware('auth');
+
+Auth::routes();
 
 // Admin Authentication Routes...
 Route::get('admin/login', 'Admin\Auth\LoginController@showLoginForm');

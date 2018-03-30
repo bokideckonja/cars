@@ -13,14 +13,31 @@ class VehiclesController extends Controller
 {
 
     /**
-     * Prikazi pretragu.
+     * Prikazi vozila(pretraga).
      *
      * @return \Illuminate\Http\Response
      */
-    public function search()
-    {
-        
+    public function index(Request $request){
+        // Kategorije za select-a
+        $categories = Category::all();
+
+        // Vozila za prikaz
+        $vehicles = Vehicle::approved()->latest()->with('category')
+            ->where(function ($query) use ($request){
+                if ( $request->has('category_id') ) {
+                    $query->where('category_id', $request->category_id);
+                }
+            })->paginate(10);
+
+        // Ako je ajax upit, posalji json
+        if($request->expectsJson()){
+            return response()->json($vehicles);
+        }
+
+        // Ako ne, renderuj normalno stranicu
+        return view('index', compact('vehicles','categories'));
     }
+
 
     /**
      * Prikazi formu za unos novog vozila.

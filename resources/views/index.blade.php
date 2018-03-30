@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row">
+    <div class="row" id="search">
         <div class="col-xs-12">
             @include('partials.alert')
         </div>

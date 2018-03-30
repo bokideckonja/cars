@@ -16,7 +16,7 @@ class VehiclesController extends Controller
      */
     public function index()
     {
-    	$vehicles = Vehicle::with('category')->paginate(10);
+    	$vehicles = Vehicle::with('category')->latest()->paginate(10);
     	return view('admin.vehicles.index', compact('vehicles'));
     }
 
@@ -41,6 +41,8 @@ class VehiclesController extends Controller
      */
     public function scrapeAudi()
     {
+        // Idealno bi bilo pomjeriti scraper u Job, i queuovat
+        // Tako da se ne ceka izvrsenje
         (new PolovniAutomobiliScraper)->scrape();
 
         session()->flash('flash-message', 'Vehicles successfully fetched.');

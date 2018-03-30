@@ -17,4 +17,5 @@ Route::get('/', 'VehiclesController@index');
 Route::put('/vehicles/{vehicle}/approve', 'VehiclesController@approve');
 Route::get('/vehicles/scrape', 'VehiclesController@scrapeAudi');
 Route::delete('/vehicles/{vehicle}', 'VehiclesController@destroy');
+
 Route::resource('categories', 'CategoriesController')->except('show');

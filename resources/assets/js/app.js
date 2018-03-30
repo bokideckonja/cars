@@ -19,11 +19,11 @@ var currentPage = 1;
 category.select2();
 
 // Na promjenu kategorije, fetch-uj vozila
-$(document).on('change', '#category', function (e) {
+$('#search').on('change', '#category', function (e) {
     getVehicles(1);
 });
 // Na klik na paginaciju, fetch-uj vozila
-$(document).on('click', '.pagination li a', function(e) {
+$('#search').on('click', '.pagination li a', function(e) {
     e.preventDefault();
     let [host, query] = $(this).attr('href').split('?');
     let queryPieces = query.split('&');
