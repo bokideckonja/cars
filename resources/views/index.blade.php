@@ -3,12 +3,24 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-xs-12">
             @include('partials.alert')
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                <select name="category_id" id="category">
+                    <option value="0">Select category to filter</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">Vehicles</div>
 
-                <table class="table">
+                <table class="table" id="vehiclesTable">
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -18,7 +30,7 @@
                     </thead>
                     <tbody>
                     @foreach($vehicles as $vehicle)
-                    <tr class="{{ $vehicle->status == 'pending'?'info':''}}">
+                    <tr>
                         <td style="width: 200px"><img src="{{ asset($vehicle->image) }}" alt="" class="img-responsive"></td>
                         <td>
                             <h4><strong>{{$vehicle->name}}</strong></h4>
